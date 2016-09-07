@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Fiit.Web.Common")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Function shared among the web-based FiiT applications.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("FiiTsoft")]
 [assembly: AssemblyProduct("Fiit.Web.Common")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
