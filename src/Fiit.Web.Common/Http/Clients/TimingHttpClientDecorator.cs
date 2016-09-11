@@ -36,7 +36,7 @@ namespace Fiit.Web.Common.Http.Clients
             return GetAndTimeResponseAsync(requestUri, "PUT", apiOperation);
         }
 
-        private static async Task<HttpResponseMessage> GetAndTimeResponseAsync(string requestUri, string method, Func<Task<HttpResponseMessage>> getResponse)
+        private async Task<HttpResponseMessage> GetAndTimeResponseAsync(string requestUri, string method, Func<Task<HttpResponseMessage>> getResponse)
         {
             var stopwatch = Stopwatch.StartNew();
             try
@@ -53,8 +53,15 @@ namespace Fiit.Web.Common.Http.Clients
             finally
             {
                 Log.Information("Method:{Method};Uri:{RequestUri};Elapsed:{Elapsed}",
-                    method, requestUri, stopwatch.Elapsed);
+                    method, GetAbsoluteUri(requestUri), stopwatch.Elapsed);
             }
+        }
+
+        private string GetAbsoluteUri(string requestUri)
+        {
+            if (HttpClient.BaseAddress != null)
+                return string.Concat(HttpClient.BaseAddress, requestUri);
+            return requestUri;
         }
     }
 }

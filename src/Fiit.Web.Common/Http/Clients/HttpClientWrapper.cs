@@ -11,6 +11,14 @@ namespace Fiit.Web.Common.Http.Clients
     {
         private readonly HttpClient _httpClient;
 
+        public Uri BaseAddress
+        {
+            get
+            {
+                return _httpClient.BaseAddress;
+            }
+        }
+
         public HttpClientWrapper(HttpClient httpClient)
         {
             _httpClient = httpClient;

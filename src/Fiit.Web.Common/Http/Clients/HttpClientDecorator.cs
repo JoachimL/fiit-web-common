@@ -41,5 +41,13 @@ namespace Fiit.Web.Common.Http.Clients
         }
 
         public Func<string> GetAccessToken { get; set; }
+
+        public Uri BaseAddress
+        {
+            get
+            {
+                return _httpClient.BaseAddress;
+            }
+        }
     }
 }
