@@ -8,8 +8,11 @@ namespace Fiit.Web.Common.Http.Clients
 {
     public class TimingHttpClientDecorator : HttpClientDecorator
     {
-        public TimingHttpClientDecorator(IHttpClient httpClient) : base(httpClient)
+        private readonly Func<HttpCallTiming, Task> _logTiming;
+
+        public TimingHttpClientDecorator(IHttpClient httpClient, Func<HttpCallTiming, Task> logTiming) : base(httpClient)
         {
+            _logTiming = logTiming;
         }
 
         public override Task<HttpResponseMessage> GetAsync(string requestUri)
@@ -52,12 +55,26 @@ namespace Fiit.Web.Common.Http.Clients
             }
             finally
             {
-                Log.Information("Method:{Method};Uri:{RequestUri};Elapsed:{Elapsed}",
-                    method, GetAbsoluteUri(requestUri), stopwatch.Elapsed);
+                var elapsed = stopwatch.Elapsed;
+                await LogResponseAsync(requestUri, method, elapsed);
             }
         }
 
-        private string GetAbsoluteUri(string requestUri)
+        private async Task LogResponseAsync(string requestUri, string method, TimeSpan elapsed)
+        {
+            Log.Information("Method:{Method};Uri:{RequestUri};Elapsed:{Elapsed}",
+                                method, GetFullUri(requestUri), elapsed);
+            if (_logTiming != null)
+                await _logTiming(new HttpCallTiming
+                {
+                    FullUri = GetFullUri(requestUri),
+                    RelativeUri = requestUri,
+                    Method = method,
+                    Elapsed = elapsed
+                });
+        }
+
+        private string GetFullUri(string requestUri)
         {
             if (HttpClient.BaseAddress != null)
                 return string.Concat(HttpClient.BaseAddress, requestUri);

@@ -78,9 +78,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Http\Clients\ErrorHandlingHttpClient.cs" />
+    <Compile Include="Http\Clients\HttpCallTiming.cs" />
     <Compile Include="Http\Clients\HttpClientDecorator.cs" />
     <Compile Include="Http\Clients\HttpClientFactory.cs" />
     <Compile Include="Http\Clients\HttpClientWrapper.cs" />
+    <Compile Include="Http\Clients\HttpClientErrorResponse.cs" />
     <Compile Include="Http\Clients\IHttpClient.cs" />
     <Compile Include="Http\Clients\TimeOutAwareHttpClientDecorator.cs" />
     <Compile Include="Http\Clients\TimingHttpClientDecorator.cs" />
